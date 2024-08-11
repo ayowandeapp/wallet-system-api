@@ -1,0 +1,1613 @@
+{
+	"info": {
+		"_postman_id": "dd8f3bc7-e8a4-4640-80da-c482a362ca1a",
+		"name": "Wallet API service",
+		"description": "The Wallet API Service is designed to facilitate seamless interaction with customer and merchant data, as well as manage wallet transactions. This API enables developers to create, update, retrieve, and delete customer and merchant records, manage digital wallets, and handle financial transactions within the application\n\n#### **Key Features:**\n\n- **Customer Management:** Create, retrieve, update, and delete customer records.\n    \n- **Merchant Management:** Manage merchant data with CRUD operations.\n    \n- **Wallet Management:** Create and manage digital wallets, including crediting and debiting funds.\n    \n- **Transaction History:** Fetch a detailed transaction history for each wallet.\n    \n- **Pagination:** Efficiently handle large datasets with paginated responses for wallets and transaction histories.\n    \n\n#### **Authentication:**\n\nNone\n\n#### Base URL:\n\n[http://loclhost:8000/api](http://loclhost:8000/api)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37584024"
+	},
+	"item": [
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "create_wallet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/wallets?customer_id=13&merchant_id=mull",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"wallets"
+							],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "13"
+								},
+								{
+									"key": "merchant_id",
+									"value": "mull"
+								}
+							]
+						},
+						"description": "### Create Wallet\n\nThis endpoint allows the creation of a wallet for a specific customer.\n\n#### Request Body\n\n- customer_id / merchant_id\n    \n\n#### Response\n\nThe response will be a JSON object\n\nThe `data` object contains the details of the created wallet including `id`, `customer_id`, `merchant_id`, `balance`, `created_at`, and `updated_at`. The `status` indicates the status of the request."
+					},
+					"response": [
+						{
+							"name": "create_wallet_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/wallets?customer_id=13",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"wallets"
+									],
+									"query": [
+										{
+											"key": "customer_id",
+											"value": "13"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:17:18 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:17:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "56"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 22,\n        \"customer_id\": 13,\n        \"merchant_id\": null,\n        \"balance\": \"0.00\",\n        \"created_at\": \"2024-08-11T11:17:18.000000Z\",\n        \"updated_at\": \"2024-08-11T11:17:18.000000Z\"\n    },\n    \"status\": 201\n}"
+						}
+					]
+				},
+				{
+					"name": "all_wallets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/wallets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"wallets"
+							]
+						},
+						"description": "### Get Wallets\n\nThe endpoint retrieves a list of wallets and the details of the wallet owners (i.e. marchant or customer)."
+					},
+					"response": [
+						{
+							"name": "all_wallets_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/wallets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"wallets"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:12:31 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:12:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 1,\n                \"customer_id\": null,\n                \"merchant_id\": 3,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 3,\n                    \"name\": \"Beryl Lemke III\",\n                    \"email\": \"anika56@example.org\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            },\n            {\n                \"id\": 2,\n                \"customer_id\": null,\n                \"merchant_id\": 4,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 4,\n                    \"name\": \"Prof. Selena Rau\",\n                    \"email\": \"hilpert.branson@example.org\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            },\n            {\n                \"id\": 3,\n                \"customer_id\": 3,\n                \"merchant_id\": null,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": {\n                    \"id\": 3,\n                    \"name\": \"Emile Kutch\",\n                    \"email\": \"dharvey@example.net\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                },\n                \"merchant\": null\n            },\n            {\n                \"id\": 4,\n                \"customer_id\": null,\n                \"merchant_id\": 5,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 5,\n                    \"name\": \"Mrs. June Trantow DVM\",\n                    \"email\": \"estanton@example.com\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            },\n            {\n                \"id\": 5,\n                \"customer_id\": 4,\n                \"merchant_id\": null,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": {\n                    \"id\": 4,\n                    \"name\": \"Bernardo Witting\",\n                    \"email\": \"anastacio04@example.net\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                },\n                \"merchant\": null\n            },\n            {\n                \"id\": 6,\n                \"customer_id\": null,\n                \"merchant_id\": 6,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 6,\n                    \"name\": \"Jaren Ziemann\",\n                    \"email\": \"burley.kohler@example.com\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            },\n            {\n                \"id\": 7,\n                \"customer_id\": null,\n                \"merchant_id\": 7,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 7,\n                    \"name\": \"Dejah DuBuque\",\n                    \"email\": \"howe.maddison@example.net\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            },\n            {\n                \"id\": 8,\n                \"customer_id\": 5,\n                \"merchant_id\": null,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": {\n                    \"id\": 5,\n                    \"name\": \"Rowland Abshire\",\n                    \"email\": \"stark.karlee@example.org\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                },\n                \"merchant\": null\n            },\n            {\n                \"id\": 9,\n                \"customer_id\": 6,\n                \"merchant_id\": null,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": {\n                    \"id\": 6,\n                    \"name\": \"Dr. Mario Kub\",\n                    \"email\": \"fisher.ivory@example.org\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                },\n                \"merchant\": null\n            },\n            {\n                \"id\": 10,\n                \"customer_id\": null,\n                \"merchant_id\": 8,\n                \"balance\": \"0.00\",\n                \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"updated_at\": \"2024-08-11T11:08:53.000000Z\",\n                \"customer\": null,\n                \"merchant\": {\n                    \"id\": 8,\n                    \"name\": \"Britney Berge\",\n                    \"email\": \"khessel@example.org\",\n                    \"created_at\": \"2024-08-11T11:08:53.000000Z\",\n                    \"updated_at\": \"2024-08-11T11:08:53.000000Z\"\n                }\n            }\n        ],\n        \"first_page_url\": \"http://localhost:8000/api/wallets?page=1\",\n        \"from\": 1,\n        \"last_page\": 3,\n        \"last_page_url\": \"http://localhost:8000/api/wallets?page=3\",\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost:8000/api/wallets?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": \"http://localhost:8000/api/wallets?page=2\",\n                \"label\": \"2\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost:8000/api/wallets?page=3\",\n                \"label\": \"3\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost:8000/api/wallets?page=2\",\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"next_page_url\": \"http://localhost:8000/api/wallets?page=2\",\n        \"path\": \"http://localhost:8000/api/wallets\",\n        \"per_page\": 10,\n        \"prev_page_url\": null,\n        \"to\": 10,\n        \"total\": 21\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "show_wallet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/wallets/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"wallets",
+								"22"
+							]
+						},
+						"description": "### Show Wallet\n\nThe endpoint retrieves the wallet details for a specific wallet ID including all the transactions associated with the wallet."
+					},
+					"response": [
+						{
+							"name": "show_wallet_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/wallets/22",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"wallets",
+										"22"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:28:38 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:28:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 22,\n        \"customer_id\": 13,\n        \"merchant_id\": null,\n        \"balance\": \"1000.00\",\n        \"created_at\": \"2024-08-11T11:17:18.000000Z\",\n        \"updated_at\": \"2024-08-11T11:26:33.000000Z\",\n        \"customer\": {\n            \"id\": 13,\n            \"name\": \"toyota\",\n            \"email\": \"toyota@example.com\",\n            \"created_at\": \"2024-08-11T11:16:45.000000Z\",\n            \"updated_at\": \"2024-08-11T11:16:45.000000Z\"\n        },\n        \"merchant\": null,\n        \"transactions\": [\n            {\n                \"id\": 21,\n                \"wallet_id\": 22,\n                \"type\": \"credit\",\n                \"amount\": \"5000.00\",\n                \"created_at\": \"2024-08-11T11:24:50.000000Z\",\n                \"updated_at\": \"2024-08-11T11:24:50.000000Z\"\n            },\n            {\n                \"id\": 22,\n                \"wallet_id\": 22,\n                \"type\": \"debit\",\n                \"amount\": \"4000.00\",\n                \"created_at\": \"2024-08-11T11:26:33.000000Z\",\n                \"updated_at\": \"2024-08-11T11:26:33.000000Z\"\n            }\n        ]\n    },\n    \"status\": 200\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "create_customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/customers?name=toyota&email=toyota@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "toyota"
+								},
+								{
+									"key": "email",
+									"value": "toyota@example.com"
+								}
+							]
+						},
+						"description": "### Create Customer\n\nThis endpoint allows the creation of a new customer.\n\n#### Request Body\n\n- `name` (string): The name of the customer.\n    \n- `email` (string): The email address of the customer.\n    \n\n#### Response\n\nThe response will contain the details of the newly created customer, including the `name`, `email`, `updated_at`, `created_at`, and `id`.\n\nExample:\n\n``` json\n{\n    \"data\": {\n        \"name\": \"toyota\",\n        \"email\": \"toyota@example.com\",\n        \"updated_at\": \"\",\n        \"created_at\": \"\",\n        \"id\": 1\n    },\n    \"status\": 201\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "create_customer_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/customers?name=toyota&email=toyota@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"customers"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "toyota"
+										},
+										{
+											"key": "email",
+											"value": "toyota@example.com"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:59:24 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:59:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"name\": \"toyota\",\n        \"email\": \"toyota@example.com\",\n        \"updated_at\": \"2024-08-11T10:59:24.000000Z\",\n        \"created_at\": \"2024-08-11T10:59:24.000000Z\",\n        \"id\": 1\n    },\n    \"status\": 201\n}"
+						}
+					]
+				},
+				{
+					"name": "all_customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"customers"
+							]
+						},
+						"description": "### Get Customers\n\nThe endpoint makes an HTTP GET request to retrieve a list of customers from the server. The response is in the form of a JSON schema and includes an array of customer objects, each containing the following properties:\n\n- id (number): The unique identifier for the customer.\n    \n- name (string): The name of the customer.\n    \n- email (string): The email address of the customer.\n    \n- created_at (string): The timestamp indicating the creation date of the customer record.\n    \n- updated_at (string): The timestamp indicating the last update date of the customer record.  \n    The response also includes a status property, which represents the status of the request."
+					},
+					"response": [
+						{
+							"name": "all_customers_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/customers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"customers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:01:39 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:01:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"toyota\",\n            \"email\": \"toyota@example.com\",\n            \"created_at\": \"2024-08-11T10:59:24.000000Z\",\n            \"updated_at\": \"2024-08-11T10:59:24.000000Z\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"pepsi\",\n            \"email\": \"pepsi@example.com\",\n            \"created_at\": \"2024-08-11T11:01:12.000000Z\",\n            \"updated_at\": \"2024-08-11T11:01:12.000000Z\"\n        }\n    ],\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "show_customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/customers/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"customers",
+								"2"
+							]
+						},
+						"description": "### Show Customer\n\nThis endpoint retrieves the details of a specific customer.\n\n#### Request\n\n- Method: GET\n    \n- Endpoint: `http://localhost:8000/api/customers/2`\n    \n\n#### Response\n\nThe response will be a JSON object with the following schema:\n\n``` json\n{\n  \"data\": {\n    \"id\": 2,\n    \"name\": \"\",\n    \"email\": \"\",\n    \"created_at\": \"\",\n    \"updated_at\": \"\"\n  },\n  \"status\": 200\n}\n\n ```\n\nThe `data` object contains the customer details including `id`, `name`, `email`, `created_at`, and `updated_at`. The `status` field indicates the status of the response."
+					},
+					"response": [
+						{
+							"name": "show_customer_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/customers/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"customers",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:02:19 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:02:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"pepsi\",\n        \"email\": \"pepsi@example.com\",\n        \"created_at\": \"2024-08-11T11:01:12.000000Z\",\n        \"updated_at\": \"2024-08-11T11:01:12.000000Z\"\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "update_customer",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/customers/2?name=coke&email=coke@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"customers",
+								"2"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "coke"
+								},
+								{
+									"key": "email",
+									"value": "coke@example.com"
+								}
+							]
+						},
+						"description": "### Update Customer Details\n\nThis endpoint is used to update the details of a specific customer.\n\n#### Request Body Parameters\n\n- `name` (string, required): The updated name of the customer.\n    \n- `email` (string, required): The updated email of the customer.\n    \n\n#### Response\n\nUpon a successful update, the response will include the updated details of the customer:\n\n``` json\n{\n    \"data\": {\n        \"id\": 0,\n        \"name\": \"\",\n        \"email\": \"\",\n        \"created_at\": \"\",\n        \"updated_at\": \"\"\n    },\n    \"status\": 200\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "update_customer_output",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/customers/2?name=coke&email=coke@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"customers",
+										"2"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "coke"
+										},
+										{
+											"key": "email",
+											"value": "coke@example.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:03:55 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:03:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"coke\",\n        \"email\": \"coke@example.com\",\n        \"created_at\": \"2024-08-11T11:01:12.000000Z\",\n        \"updated_at\": \"2024-08-11T11:03:55.000000Z\"\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "delete_customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						},
+						"description": "### Delete Customer\n\nThis endpoint is used to delete a specific customer.\n\n#### Request\n\n- Method: DELETE\n    \n- Endpoint: `http://localhost:8000/api/customers/1`\n    \n\n#### Response\n\nThe response for this request is a JSON schema that represents the deleted customer's details."
+					},
+					"response": [
+						{
+							"name": "delete_customer_output",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/customers/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"customers",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:04:47 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:04:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Merchant",
+			"item": [
+				{
+					"name": "all_merchants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/merchants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"merchants"
+							]
+						},
+						"description": "### Get Merchants\n\nThis endpoint makes an HTTP GET request to retrieve a list of merchants.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\n- `data` (array): An array of merchant objects, each containing the following fields:\n    \n    - `id` (integer): The unique identifier of the merchant.\n        \n    - `name` (string): The name of the merchant.\n        \n    - `email` (string): The email address of the merchant.\n        \n    - `created_at` (string): The timestamp indicating when the merchant was created.\n        \n    - `updated_at` (string): The timestamp indicating when the merchant was last updated.\n        \n- `status` (integer): The status code of the response."
+					},
+					"response": [
+						{
+							"name": "all_merchant_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/merchants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"merchants"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:54:17 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:54:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"ayowande\",\n            \"email\": \"ayowande@example.com\",\n            \"created_at\": \"2024-08-11T10:51:40.000000Z\",\n            \"updated_at\": \"2024-08-11T10:51:40.000000Z\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"john\",\n            \"email\": \"john@example.com\",\n            \"created_at\": \"2024-08-11T10:54:09.000000Z\",\n            \"updated_at\": \"2024-08-11T10:54:09.000000Z\"\n        }\n    ],\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "create_merchant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/merchants?name=ayowande&email=ayowande@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"merchants"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ayowande"
+								},
+								{
+									"key": "email",
+									"value": "ayowande@example.com"
+								}
+							]
+						},
+						"description": "### Create Merchant\n\nThis endpoint allows you to create a new merchant by making an HTTP POST request to the specified URL. The request should include the name and email parameters in the query string.\n\n### Request Body\n\nThe request body should not include any additional parameters as the merchant details are provided in the query string.\n\n### Response\n\nUpon successful creation, the response will include the merchant's data, including their name, email, updated_at, created_at, and id. The status field indicates the success of the request.\n\nExample response:\n\n``` json\n{\n    \"data\": {\n        \"name\": \"\",\n        \"email\": \"\",\n        \"updated_at\": \"\",\n        \"created_at\": \"\",\n        \"id\": 0\n    },\n    \"status\": 201\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "create_merchant_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/merchants?name=ayowande&email=ayowande@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"merchants"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "ayowande"
+										},
+										{
+											"key": "email",
+											"value": "ayowande@example.com"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:51:40 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:51:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"name\": \"ayowande\",\n        \"email\": \"ayowande@example.com\",\n        \"updated_at\": \"2024-08-11T10:51:40.000000Z\",\n        \"created_at\": \"2024-08-11T10:51:40.000000Z\",\n        \"id\": 1\n    },\n    \"status\": 201\n}"
+						}
+					]
+				},
+				{
+					"name": "show_merchant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/merchants/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"merchants",
+								"1"
+							]
+						},
+						"description": "### Show Merchant\n\nThis endpoint retrieves the details of a specific merchant with the ID of 1.\n\n### Response\n\nThe response will be a JSON object with the following schema:\n\n``` json\n{\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"\",\n    \"email\": \"\",\n    \"created_at\": \"\",\n    \"updated_at\": \"\"\n  },\n  \"status\": 200\n}\n\n ```\n\nThe `data` object contains the merchant details including `id`, `name`, `email`, `created_at`, and `updated_at`. The `status` field indicates the status of the response."
+					},
+					"response": [
+						{
+							"name": "show_merchant_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/merchants/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"merchants",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:56:09 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:56:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"ayowande\",\n        \"email\": \"ayowande@example.com\",\n        \"created_at\": \"2024-08-11T10:51:40.000000Z\",\n        \"updated_at\": \"2024-08-11T10:51:40.000000Z\"\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "update_merchant",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/merchants/1?name=ronaldo&=ronaldo@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"merchants",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ronaldo"
+								},
+								{
+									"key": null,
+									"value": "ronaldo@example.com"
+								}
+							]
+						},
+						"description": "### Update Merchant Details\n\nThis endpoint is used to update the details of a specific merchant.\n\n#### Request Body\n\n- `name` (string, required): The updated name of the merchant.\n    \n- `email` (string, required): The updated email of the merchant.\n    \n\n#### Response\n\nUpon a successful update, the response will include the updated merchant details:\n\n``` json\n{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"ronaldo\",\n        \"email\": \"ronaldo@example.com\",\n        \"created_at\": \"\",\n        \"updated_at\": \"\"\n    },\n    \"status\": 200\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "update_merchant_output",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/merchants/1?name=ronaldo&=ronaldo@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"merchants",
+										"1"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "ronaldo"
+										},
+										{
+											"key": null,
+											"value": "ronaldo@example.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:57:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 10:57:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"ronaldo\",\n        \"email\": \"ayowande@example.com\",\n        \"created_at\": \"2024-08-11T10:51:40.000000Z\",\n        \"updated_at\": \"2024-08-11T10:57:34.000000Z\"\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "delete_merchant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/merchants/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"merchants",
+								"1"
+							]
+						},
+						"description": "### Delete Merchant\n\nThis endpoint is used to delete a specific merchant.\n\n#### Request\n\n- Method: DELETE\n    \n- Endpoint: `/api/merchants/1`\n    \n\n#### Response\n\nThe response for this request follows the JSON schema below:\n\n``` json\n{\n  \"data\": null,\n  \"status\": 204\n}\n\n ```\n\nThe response will contain a message indicating the status of the deletion operation."
+					},
+					"response": [
+						{
+							"name": "delete_merchant_output",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/merchants/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"merchants",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:05:50 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:05:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "wallet_transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/wallets/22/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"wallets",
+								"22",
+								"transactions"
+							]
+						},
+						"description": "### Get Wallet Transactions\n\nThis endpoint retrieves the transactions associated with the wallet with ID 22.\n\n#### Request\n\n- Method: GET\n    \n- Endpoint: `http://localhost:8000/api/wallets/22/transactions`\n    \n\n#### Response\n\nThe response will contain a JSON object with the following structure:\n\n- `data` (object):\n    \n    - `current_page` (number): The current page of transactions.\n        \n    - `data` (array): An array of transaction objects, each containing:\n        \n        - `id` (number): The transaction ID.\n            \n        - `wallet_id` (number): The ID of the associated wallet.\n            \n        - `type` (string): The type of transaction.\n            \n        - `amount` (string): The amount of the transaction.\n            \n        - `created_at` (string): The timestamp of the transaction creation.\n            \n        - `updated_at` (string): The timestamp of the transaction update.\n            \n    - `first_page_url` (string): The URL of the first page of transactions.\n        \n    - `from` (number): The starting index of the transactions.\n        \n    - `last_page` (number): The last page number.\n        \n    - `last_page_url` (string): The URL of the last page of transactions.\n        \n    - `links` (array): An array of link objects, each containing:\n        \n        - `url` (string): The URL of the link.\n            \n        - `label` (string): The label of the link.\n            \n        - `active` (boolean): Indicates if the link is active.\n            \n    - `next_page_url` (string): The URL of the next page of transactions.\n        \n    - `path` (string): The path of the request.\n        \n    - `per_page` (number): The number of transactions per page.\n        \n    - `prev_page_url` (string): The URL of the previous page of transactions.\n        \n    - `to` (number): The ending index of the transactions.\n        \n    - `total` (number): The total number of transactions.\n        \n- `status` (number): The status of the response."
+					},
+					"response": [
+						{
+							"name": "wallet_transaction_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/wallets/22/transactions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"wallets",
+										"22",
+										"transactions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:27:32 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:27:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 21,\n                \"wallet_id\": 22,\n                \"type\": \"credit\",\n                \"amount\": \"5000.00\",\n                \"created_at\": \"2024-08-11T11:24:50.000000Z\",\n                \"updated_at\": \"2024-08-11T11:24:50.000000Z\"\n            },\n            {\n                \"id\": 22,\n                \"wallet_id\": 22,\n                \"type\": \"debit\",\n                \"amount\": \"4000.00\",\n                \"created_at\": \"2024-08-11T11:26:33.000000Z\",\n                \"updated_at\": \"2024-08-11T11:26:33.000000Z\"\n            }\n        ],\n        \"first_page_url\": \"http://localhost:8000/api/wallets/22/transactions?page=1\",\n        \"from\": 1,\n        \"last_page\": 1,\n        \"last_page_url\": \"http://localhost:8000/api/wallets/22/transactions?page=1\",\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost:8000/api/wallets/22/transactions?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"next_page_url\": null,\n        \"path\": \"http://localhost:8000/api/wallets/22/transactions\",\n        \"per_page\": 10,\n        \"prev_page_url\": null,\n        \"to\": 2,\n        \"total\": 2\n    },\n    \"status\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "create_credit_transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/transactions?wallet_id=22&type=credit&amount=5000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "wallet_id",
+									"value": "22"
+								},
+								{
+									"key": "type",
+									"value": "credit"
+								},
+								{
+									"key": "amount",
+									"value": "5000"
+								}
+							]
+						},
+						"description": "### Credit Transaction\n\nThe HTTP POST request is used to add a transaction to a specific wallet. The request should be made to [http://localhost:8000/api/transactions](http://localhost:8000/api/transactions) with the parameters wallet_id, type, and amount included in the query string.\n\n### Request Body\n\nThe request body should include the following parameters:\n\n- `wallet_id`: The ID of the wallet for the transaction.\n    \n- `type`: The type of transaction (e.g., credit, debit).\n    \n- `amount`: The amount of the transaction.\n    \n\n### Response\n\nUpon successful execution, the response will include the details of the transaction added, including the wallet ID, transaction type, amount, updated timestamp, created timestamp, and the transaction ID."
+					},
+					"response": [
+						{
+							"name": "create_credit_transaction_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/transactions?wallet_id=22&type=credit&amount=5000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "wallet_id",
+											"value": "22"
+										},
+										{
+											"key": "type",
+											"value": "credit"
+										},
+										{
+											"key": "amount",
+											"value": "5000"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:24:50 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:24:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"wallet_id\": \"22\",\n        \"type\": \"credit\",\n        \"amount\": \"5000\",\n        \"updated_at\": \"2024-08-11T11:24:50.000000Z\",\n        \"created_at\": \"2024-08-11T11:24:50.000000Z\",\n        \"id\": 21\n    },\n    \"status\": 201\n}"
+						}
+					]
+				},
+				{
+					"name": "create_debit_transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/transactions?wallet_id=22&type=debit&amount=4000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "wallet_id",
+									"value": "22"
+								},
+								{
+									"key": "type",
+									"value": "debit"
+								},
+								{
+									"key": "amount",
+									"value": "4000"
+								}
+							]
+						},
+						"description": "### Debit Transaction\n\nThis endpoint allows you to add a new transaction to a specific wallet.\n\n#### Request Body\n\n- `wallet_id` (string) - The ID of the wallet for which the transaction is being added.\n    \n- `type` (string) - The type of the transaction (e.g., debit, credit).\n    \n- `amount` (string) - The amount of the transaction.\n    \n\n#### Response\n\nUpon a successful request, the response will include the details of the newly subtracted transaction, including the wallet ID, transaction type, amount, updated timestamp, created timestamp, and transaction ID."
+					},
+					"response": [
+						{
+							"name": "create_debit_transaction_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/transactions?wallet_id=22&type=debit&amount=4000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "wallet_id",
+											"value": "22"
+										},
+										{
+											"key": "type",
+											"value": "debit"
+										},
+										{
+											"key": "amount",
+											"value": "4000"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:26:33 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Aug 2024 11:26:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"wallet_id\": \"22\",\n        \"type\": \"debit\",\n        \"amount\": \"4000\",\n        \"updated_at\": \"2024-08-11T11:26:33.000000Z\",\n        \"created_at\": \"2024-08-11T11:26:33.000000Z\",\n        \"id\": 22\n    },\n    \"status\": 201\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

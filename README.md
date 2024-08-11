@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Wallet API Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains the Wallet API Service, built with Laravel, designed to manage customer and merchant wallets, perform transactions, and retrieve transaction histories.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Features](#features)
+- [ERD Diagram](#erd-diagram)
+- [API Documentation](#api-documentation)
+- [Installation](#installation)
+- [Testing](#testing)
+- [Postman Collection](#postman-collection)
+- [Contributions](#Contributions)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **CRUD Operations:**
+  - Manage Customers
+  - Manage Merchants
+- **Wallet Operations:**
+  - Create Wallets
+  - Debit and Credit Wallets
+  - Fetch Wallet Details
+  - Fetch a List of Wallets (Paginated)
+  - Fetch Wallet Transaction History (Paginated)
+- **Validation and Error Handling:**
+  - Comprehensive input validation and error responses.
+- **Cron Job:**
+  - Automated job to identify wallets with discrepancies between balance and transactions.
+  
+## ERD Diagram
 
-## Learning Laravel
+The Entity-Relationship Diagram (ERD) for the database schema is shown below:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+![ERD Diagram](./wallet-api-ERD.png)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+This ERD represents the relationships between customers, merchants, wallets, and transactions.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## API Documentation
 
-## Laravel Sponsors
+The API documentation is available through the Postman collection provided in this repository. It covers all the endpoints for managing wallets, customers, merchants, and transactions.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Endpoints Overview
 
-### Premium Partners
+- **Customers**
+  - `POST /api/customers` - Create a new customer
+  - `GET /api/customers/{id}` - Fetch a specific customer
+  - `PUT /api/customers/{id}` - Update a customer
+  - `DELETE /api/customers/{id}` - Delete a customer
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- **Merchants**
+  - `POST /api/merchants` - Create a new merchant
+  - `GET /api/merchants/{id}` - Fetch a specific merchant
+  - `PUT /api/merchants/{id}` - Update a merchant
+  - `DELETE /api/merchants/{id}` - Delete a merchant
 
-## Contributing
+- **Wallets**
+  - `POST /api/wallets` - Create a new wallet
+  - `GET /api/wallets/{id}` - Fetch wallet details
+  - `POST /api/transactions` - Debit and Credit a wallet
+  - `GET /api/wallets` - Fetch a list of wallets (Paginated)
+  - `GET /api/wallets/{walletId}/transactions` - Fetch wallet transaction history (Paginated)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Installation
 
-## Code of Conduct
+**Install dependencies**
+```
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Set up the environment**
+- Duplicate the .env.example file and rename it to .env.
+- Configure the environment variables, including database connection details.
+- Configure the .env.testing file, include the test database connection details
 
-## Security Vulnerabilities
+**Serve the application**
+```
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Testing
 
-## License
+In the command line, run
+```
+php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Postman Collection
+
+The Postman collection file (wallet-service-api.postman_collection.json) is included in the repository. Import this collection into Postman to test the API.
+Also, [Published collection](https://documenter.getpostman.com/view/37584024/2sA3s3HrVR)
+
+## Contributions
+
+Contributions are welcome! Please submit a pull request with a detailed description of your changes.

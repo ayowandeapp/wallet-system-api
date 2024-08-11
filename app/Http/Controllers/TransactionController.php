@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponses;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,15 +40,25 @@ class TransactionController extends Controller
         if ($request->type == 'debit' && $wallet->balance < $request->amount) {
             return $this->error('Insufficient balance', Response::HTTP_BAD_REQUEST);
         }
-        $transaction = Transaction::create($request->all());
+        try {
+            DB::beginTransaction();
 
-        if ($request->type == 'credit') {
-            $wallet->balance += $request->amount;
-        } else {
-            $wallet->balance -= $request->amount;
+            $transaction = Transaction::create($request->all());
+
+            if ($request->type == 'credit') {
+                $wallet->balance += $request->amount;
+            } else {
+                $wallet->balance -= $request->amount;
+            }
+            $wallet->save();
+
+            DB::commit();
+            return $this->success($transaction, Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
+            return $this->error('Process Unsuccessful!', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $wallet->save();
-        return $this->success($transaction, Response::HTTP_CREATED);
     }
 
     public function show($id)

@@ -10,6 +10,7 @@ This repository contains the Wallet API Service, built with Laravel, designed to
 - [Installation](#installation)
 - [Testing](#testing)
 - [Postman Collection](#postman-collection)
+- [Future Enhancements](#future-enhancements)
 - [Contributions](#Contributions)
 
 ## Features
@@ -89,6 +90,12 @@ php artisan test
 
 The Postman collection file (wallet-service-api.postman_collection.json) is included in the repository. Import this collection into Postman to test the API.
 Also, [Published collection](https://documenter.getpostman.com/view/37584024/2sA3s3HrVR)
+
+## Future Enhancements
+
+- **Redis Caching:**
+  - Implementing Redis caching could significantly improve the performance of the API by reducing the load on the database for frequently accessed data. This could be particularly useful for endpoints that retrieve wallet details or transaction histories.
+  - Future updates could include caching mechanisms for these endpoints, with cache invalidation strategies to ensure data consistency.
 
 ## Contributions
 

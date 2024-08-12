@@ -14,6 +14,15 @@ class WalletController extends Controller
 {
     use ApiResponses;
 
+    /**
+     * Display a paginated list of wallets.
+     *
+     * Retrieves wallets along with associated customer and merchant data and paginates the results
+     * based on the specified length or defaults to 10.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $length = $request->length ?? 10;
@@ -21,6 +30,15 @@ class WalletController extends Controller
         return $this->ok($wallets);
     }
 
+    /**
+     * Store a newly created wallet in storage.
+     *
+     * Validates the request to ensure that either a customer ID or merchant ID is provided, but not both.
+     * Checks if a wallet already exists for the given customer or merchant and creates a new wallet if one does not exist.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -58,6 +76,15 @@ class WalletController extends Controller
         return $this->success($wallet->refresh(), Response::HTTP_CREATED);
     }
 
+    /**
+     * Display the specified wallet.
+     *
+     * Retrieves and returns the wallet with the given ID along with its associated customer, merchant, and transaction data.
+     * If the wallet is not found, a 404 error response is returned.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         try {
@@ -68,7 +95,14 @@ class WalletController extends Controller
         }
     }
 
-
+    /**
+     * Remove the specified wallet from storage.
+     *
+     * This function is not implemented and will return a 405 Method Not Allowed response.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         return $this->error('Not implemented', Response::HTTP_METHOD_NOT_ALLOWED);

@@ -24,7 +24,13 @@ class CheckWalletBalance extends Command
     protected $description = 'Identify wallets with balances that do not match their transactions.';
 
     /**
-     * Execute the console command.
+     * Handles the execution of the wallet balance check command.
+     *
+     * This command iterates over all wallets in chunks of 100, calculates the expected balance based
+     * on the transactions associated with each wallet, and compares it with the actual balance.
+     * If any discrepancies are found, they are logged as warnings.
+     *
+     * @return void
      */
     public function handle()
     {

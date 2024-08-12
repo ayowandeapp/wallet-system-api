@@ -17,6 +17,15 @@ class TransactionController extends Controller
 
     use ApiResponses;
 
+    /**
+     * Display a paginated list of transactions.
+     *
+     * Retrieves transactions with associated wallet data and paginates the results
+     * based on the specified length or defaults to 10.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $length = $request->length ?? 10;
@@ -24,6 +33,15 @@ class TransactionController extends Controller
         return $this->ok($transactions);
     }
 
+    /**
+     * Store a newly created transaction in storage.
+     *
+     * Validates the request, checks wallet balance for debit transactions, creates
+     * a transaction record, updates the wallet balance, and handles errors with transactions.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -61,6 +79,15 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * Display the specified transaction.
+     *
+     * Retrieves and returns the transaction with the given ID along with its associated wallet data.
+     * If the transaction is not found, a 404 error response is returned.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         try {
@@ -71,6 +98,17 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * Display a paginated list of transactions for a specific wallet.
+     *
+     * Retrieves transactions for the specified wallet and paginates the results
+     * based on the specified length or defaults to 10. If the wallet is not found,
+     * a 404 error response is returned.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $wallet
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function walletTransactions(Request $request, $wallet)
     {
 
@@ -85,6 +123,15 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * Update the specified transaction in storage.
+     *
+     * This function is not implemented and will return a 405 Method Not Allowed response.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         return $this->error('Not implemented', Response::HTTP_METHOD_NOT_ALLOWED);

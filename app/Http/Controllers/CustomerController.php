@@ -14,12 +14,26 @@ class CustomerController extends Controller
 {
     use ApiResponses;
 
+    /**
+     * Display a listing of all customers.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $customers = Customer::all();
         return $this->ok($customers);
     }
 
+    /**
+     * Store a newly created customer in storage.
+     *
+     * Validates the incoming request and creates a new customer record.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -35,6 +49,15 @@ class CustomerController extends Controller
         return $this->success($customer, Response::HTTP_CREATED);
     }
 
+    /**
+     * Display the specified customer.
+     *
+     * Retrieves and returns the customer with the given ID. If the customer is not found,
+     * a 404 error response is returned.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         try {
@@ -45,7 +68,17 @@ class CustomerController extends Controller
         }
     }
 
-
+    /**
+     * Update the specified customer in storage.
+     *
+     * Validates the incoming request and updates the customer record with the given ID.
+     * If the customer is not found, a 404 error response is returned. If the update fails,
+     * a 500 error response is returned.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -59,6 +92,15 @@ class CustomerController extends Controller
         }
     }
 
+    /**
+     * Remove the specified customer from storage.
+     *
+     * Deletes the customer with the given ID. If the customer is not found,
+     * a 404 error response is returned. If the deletion fails, a 500 error response is returned.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         try {

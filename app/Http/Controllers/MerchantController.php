@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MerchantRequest;
+use App\Http\Requests\UpdateMerchantRequest;
+use App\Http\Resources\MerchantResource;
 use App\Models\Merchant;
+use App\Services\MerchantService;
 use App\Traits\ApiResponses;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,10 +24,14 @@ class MerchantController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
+
+    public function __construct(private MerchantService $merchantService) {}
+
     public function index(Request $request)
     {
-        $merchants = Merchant::get();
-        return $this->ok($merchants);
+        $merchants = $this->merchantService->getMerchant();
+        return $this->success(MerchantResource::collection($merchants), Response::HTTP_OK);
     }
 
     /**
@@ -34,19 +42,10 @@ class MerchantController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(MerchantRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:merchants'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors());
-        }
-
-        $merchant = Merchant::create($request->all());
-        return $this->success($merchant, Response::HTTP_CREATED);
+        $merchant = $this->merchantService->createMerchant($request->validated());
+        return $this->success(new MerchantResource($merchant), Response::HTTP_CREATED);
     }
 
     /**
@@ -58,11 +57,11 @@ class MerchantController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
-            $merchant = Merchant::findOrFail((int) $id);
-            return $this->ok($merchant);
+            $merchant = $this->merchantService->findMerchant($id);
+            return $this->success(new MerchantResource($merchant), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Merchant not found', Response::HTTP_NOT_FOUND); // Return a 404 response with an error message
         }
@@ -79,13 +78,12 @@ class MerchantController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMerchantRequest $request, $id)
     {
 
         try {
-            $merchant = Merchant::findOrFail((int) $id);
-            $merchant->update($request->all());
-            return $this->ok($merchant);
+            $merchant = $this->merchantService->updateMerchant($id, $request->validated());
+            return $this->success(new MerchantResource($merchant), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Merchant not found', Response::HTTP_NOT_FOUND);
         } catch (Exception $e) {
@@ -102,11 +100,10 @@ class MerchantController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
-            $merchant = Merchant::findOrFail((int) $id);
-            $merchant->delete();
+            $this->merchantService->delete($id);
             return $this->success(null, Response::HTTP_NO_CONTENT);
         } catch (ModelNotFoundException $e) {
             return $this->error('Merchant not found', Response::HTTP_NOT_FOUND);

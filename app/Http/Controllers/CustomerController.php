@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateCustomerAction;
+use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Services\CustomerService;
 use App\Traits\ApiResponses;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,6 +19,13 @@ class CustomerController extends Controller
 {
     use ApiResponses;
 
+    private CustomerService $customerService;
+
+    public function __construct(CustomerService $customerService)
+    {
+        $this->customerService = $customerService;
+    }
+
     /**
      * Display a listing of all customers.
      *
@@ -22,8 +34,8 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = Customer::all();
-        return $this->ok($customers);
+        $customers = $this->customerService->getCustomer();
+        return $this->success(CustomerResource::collection($customers));
     }
 
     /**
@@ -34,19 +46,14 @@ class CustomerController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->messages(), Response::HTTP_BAD_REQUEST);
+        try {
+            $customer = $this->customerService->createCustomer($request->validated());
+            return $this->success(new CustomerResource($customer), Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $customer = Customer::create($request->all());
-        return $this->success($customer, Response::HTTP_CREATED);
     }
 
     /**
@@ -58,11 +65,11 @@ class CustomerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
-            $customer = Customer::findOrFail((int) $id);
-            return $this->ok($customer);
+            $customer = $this->customerService->findCustomer($id);
+            return $this->success(new CustomerResource($customer), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Customer not found', Response::HTTP_NOT_FOUND);
         }
@@ -79,12 +86,11 @@ class CustomerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCustomerRequest $request, int $id)
     {
         try {
-            $customer = Customer::findOrFail((int) $id);
-            $customer->update($request->all());
-            return $this->ok($customer);
+            $customer = $this->customerService->updateCustomer($id, $request->validated());
+            return $this->success(new CustomerResource($customer), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Customer not found', Response::HTTP_NOT_FOUND);
         } catch (Exception $e) {
@@ -101,11 +107,10 @@ class CustomerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
-            $customer = Customer::findOrFail((int) $id);
-            $customer->delete();
+            $this->customerService->delete($id);
             return $this->success(null, Response::HTTP_NO_CONTENT);
         } catch (ModelNotFoundException $e) {
             return $this->error('Customer not found', Response::HTTP_NOT_FOUND);

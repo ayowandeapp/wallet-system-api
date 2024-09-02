@@ -59,14 +59,18 @@ class CustomerTest extends TestCase
 
         $fillables = (new Customer())->getFillable();
 
+        $payload = [];
         foreach ($fillables as $key => $value) {
-            $response = $this->patch("/api/customers/{$dummy->id}", [
-                $value => $customer[$value]
-            ]);
+            $payload = array_merge($payload, [$value => $customer[$value]]);
+        }
+        $response = $this->patch("/api/customers/{$dummy->id}", $payload);
 
-            $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_OK);
 
-            $data = $response->json('data');
+        $data = $response->json('data');
+        // dd($data, $customer['name']);
+
+        foreach ($fillables as $key => $value) {
             $this->assertSame($data[$value], $customer[$value],  'Failed to update ');
         }
     }

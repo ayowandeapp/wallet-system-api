@@ -64,14 +64,18 @@ class MerchantTest extends TestCase
 
         $fillables = (new Merchant())->getFillable();
 
+        $payload = [];
         foreach ($fillables as $key => $value) {
-            $response = $this->patch("/api/merchants/{$dummy->id}", [
-                $value => $merchant[$value]
-            ]);
+            $payload = array_merge($payload, [$value => $merchant[$value]]);
+        }
+        $response = $this->patch("/api/merchants/{$dummy->id}", $payload);
 
-            $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_OK);
 
-            $data = $response->json('data');
+        $data = $response->json('data');
+
+        foreach ($fillables as $key => $value) {
+
             $this->assertSame($data[$value], $merchant[$value],  'Failed to update ');
         }
     }

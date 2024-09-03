@@ -26,9 +26,9 @@ class TransactionTest extends TestCase
             'data' => [
                 '*' => [],
                 'data' => [
-                    '*' => ['wallet_id', 'type', 'amount']
+                    '*' => ['id', 'wallet_id', 'type', 'amount']
                 ],
-                'links',
+                'meta',
             ]
         ]);
     }

@@ -22,8 +22,8 @@ class WalletFactory extends Factory
         $isMerchant = fake()->boolean();
 
         return [
-            'customer_id' => !$isMerchant ? Customer::factory() : null,
-            'merchant_id' => $isMerchant ? Merchant::factory() : null,
+            'walletable_id' => !$isMerchant ? Customer::factory() : Merchant::factory(),
+            'walletable_type' => !$isMerchant ? Customer::class : Merchant::class,
             'balance' => number_format(0, 2)
         ];
     }

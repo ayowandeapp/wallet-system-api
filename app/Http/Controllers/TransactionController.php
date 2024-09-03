@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TransactionRequest;
+use App\Http\Resources\TransactionResource;
+use App\Http\Resources\TransactionResourceCollection;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponses;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -17,6 +21,11 @@ class TransactionController extends Controller
 
     use ApiResponses;
 
+    public function __construct(private TransactionService $transactionService)
+    {
+        # code...
+    }
+
     /**
      * Display a paginated list of transactions.
      *
@@ -29,8 +38,8 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $length = $request->length ?? 10;
-        $transactions = Transaction::with('wallet')->paginate($length);
-        return $this->ok($transactions);
+        $transactions = $this->transactionService->getTransaction($length);
+        return $this->success(new TransactionResourceCollection($transactions), Response::HTTP_OK);
     }
 
     /**
@@ -42,36 +51,13 @@ class TransactionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(TransactionRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:0.01',
-            'wallet_id' => 'required|exists:wallets,id',
-            'type' => 'required|in:debit,credit'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->messages(), Response::HTTP_BAD_REQUEST);
-        }
-
-        $wallet = Wallet::findOrFail($request->wallet_id);
-        if ($request->type == 'debit' && $wallet->balance < $request->amount) {
-            return $this->error('Insufficient balance', Response::HTTP_BAD_REQUEST);
-        }
         try {
             DB::beginTransaction();
-
-            $transaction = Transaction::create($request->all());
-
-            if ($request->type == 'credit') {
-                $wallet->balance += $request->amount;
-            } else {
-                $wallet->balance -= $request->amount;
-            }
-            $wallet->save();
-
+            $transaction = $this->transactionService->createTransaction($request->validated());
             DB::commit();
-            return $this->success($transaction, Response::HTTP_CREATED);
+            return $this->success(new TransactionResource($transaction), Response::HTTP_CREATED);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
@@ -88,11 +74,11 @@ class TransactionController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
-            $transaction = Transaction::with('wallet')->findOrFail((int) $id);
-            return $this->ok($transaction);
+            $transaction = $this->transactionService->findTransaction($id);
+            return $this->success(new TransactionResource($transaction), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Transaction not found', Response::HTTP_NOT_FOUND);
         }
@@ -109,15 +95,14 @@ class TransactionController extends Controller
      * @param int $wallet
      * @return \Illuminate\Http\JsonResponse
      */
-    public function walletTransactions(Request $request, $wallet)
+    public function walletTransactions(Request $request, int $wallet)
     {
 
         $length = $request->length ?? 10;
 
         try {
-            $wallet = Wallet::findOrFail($wallet);
-            $transactions = $wallet->transactions()->paginate($length);
-            return $this->ok($transactions);
+            $transactions = $this->transactionService->getWalletTransactions($wallet, $length);
+            return $this->success(new TransactionResourceCollection($transactions));
         } catch (ModelNotFoundException $e) {
             return $this->error('Wallet not found', Response::HTTP_NOT_FOUND);
         }

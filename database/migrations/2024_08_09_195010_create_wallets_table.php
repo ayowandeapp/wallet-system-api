@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->unsignedBigInteger('walletable_id')->nullable();
+            $table->string('walletable_type')->nullable();
             $table->decimal('balance', 15, 2)->default(0);
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade');
+            $table->unique(['walletable_id', 'walletable_type']);
+            $table->index(['walletable_id', 'walletable_type']);
+            // $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            // $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade');
         });
     }
 

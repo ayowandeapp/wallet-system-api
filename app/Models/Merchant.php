@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Merchant extends Model
 {
@@ -16,8 +17,8 @@ class Merchant extends Model
     ];
 
 
-    public function Wallet(): HasOne
+    public function wallet(): MorphOne
     {
-        return $this->hasOne(Wallet::class, 'merchant_id', 'id');
+        return $this->morphOne(Wallet::class, 'walletable');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Wallet extends Model
 {
@@ -13,18 +14,22 @@ class Wallet extends Model
 
     protected $fillable = [
         'balance',
-        'customer_id',
-        'merchant_id'
+        'walletable_id',
+        'walletable_type'
     ];
 
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
-    }
+    // public function customer(): BelongsTo
+    // {
+    //     return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    // }
 
-    public function merchant(): BelongsTo
+    // public function merchant(): BelongsTo
+    // {
+    //     return $this->belongsTo(Merchant::class, 'merchant_id', 'id');
+    // }
+    public function walletable(): MorphTo
     {
-        return $this->belongsTo(Merchant::class, 'merchant_id', 'id');
+        return $this->morphTo();
     }
 
     public function transactions(): HasMany

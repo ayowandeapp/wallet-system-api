@@ -50,10 +50,10 @@ class WalletTest extends TestCase
             'data' => [
                 '*' => [],
                 'data' => [
-                    '*' => ['customer_id', 'merchant_id', 'balance']
+                    '*' => ['id', 'walletable_id', 'walletable_type', 'balance']
 
                 ],
-                'links',
+                'meta',
             ]
         ]);
     }

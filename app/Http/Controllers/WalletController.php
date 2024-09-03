@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WalletRequest;
+use App\Http\Resources\WalletResource;
+use App\Http\Resources\WalletResourceCollection;
 use App\Models\Wallet;
+use App\Services\WalletService;
 use App\Traits\ApiResponses;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,6 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 class WalletController extends Controller
 {
     use ApiResponses;
+
+    public function __construct(private WalletService $walletService)
+    {
+        # code...
+    }
 
     /**
      * Display a paginated list of wallets.
@@ -26,8 +35,8 @@ class WalletController extends Controller
     public function index(Request $request)
     {
         $length = $request->length ?? 10;
-        $wallets = Wallet::with(['customer', 'merchant'])->paginate($length);
-        return $this->ok($wallets);
+        $wallets = $this->walletService->getWallet($length);
+        return $this->success(new WalletResourceCollection($wallets));
     }
 
     /**
@@ -39,41 +48,14 @@ class WalletController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(WalletRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            // 'balance' => 'required|numeric|min:0',
-            'customer_id' => 'nullable|exists:customers,id|required_without:merchant_id',
-            'merchant_id' => 'nullable|exists:merchants,id|required_without:customer_id'
-        ]);
-
-
-        if ($validator->fails()) {
-            return $this->error($validator->messages(), Response::HTTP_BAD_REQUEST);
+        try {
+            $wallet = $this->walletService->createWallet($request->only(['walletable_id', 'walletable_type']));
+            return $this->success(new WalletResource($wallet->refresh()), Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), Response::HTTP_CONFLICT);
         }
-
-        // If both customer_id and merchant_id are filled, return an error response
-        if ($request->filled('customer_id') && $request->filled('merchant_id')) {
-            return $this->error('Only one of customer_id or merchant_id must be provided, not both.', Response::HTTP_BAD_REQUEST);
-        }
-
-        // Check if a wallet already exists for the given customer or merchant
-        $existingWallet = Wallet::where(function ($query) use ($request) {
-            if ($request->filled('customer_id')) {
-                $query->where('customer_id', $request->customer_id);
-            }
-            if ($request->filled('merchant_id')) {
-                $query->where('merchant_id', $request->merchant_id);
-            }
-        })->first();
-
-        // If a wallet exists, return an error response
-        if ($existingWallet) {
-            return $this->error('A wallet already exists for this customer or merchant.', Response::HTTP_CONFLICT);
-        }
-
-        $wallet = Wallet::create($request->only(['customer_id', 'merchant_id']));
-        return $this->success($wallet->refresh(), Response::HTTP_CREATED);
     }
 
     /**
@@ -85,11 +67,11 @@ class WalletController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(int $id)
     {
         try {
-            $wallet = Wallet::with(['customer', 'merchant', 'transactions'])->findOrFail((int) $id);
-            return $this->ok($wallet);
+            $wallet = $this->walletService->findWallet($id);
+            return $this->success(new WalletResource($wallet), Response::HTTP_OK);
         } catch (ModelNotFoundException $e) {
             return $this->error('Wallet not found', Response::HTTP_NOT_FOUND);
         }
